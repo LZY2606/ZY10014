@@ -403,6 +403,12 @@ public final class EWAHCompressedBitmap implements Cloneable, Externalizable,
      * @since 0.4.0
      */
     public void andToContainer(final EWAHCompressedBitmap a, final BitmapStorage container) {
+        final EWAHCompressedBitmap safeOther = (container == a) ? cloneQuietly(a) : a;
+        final EWAHCompressedBitmap safeThis = (container == this) ? cloneQuietly(this) : this;
+        safeThis.andToContainerUnsafe(safeOther, container);
+    }
+
+    private void andToContainerUnsafe(final EWAHCompressedBitmap a, final BitmapStorage container) {
         container.clear();
         final EWAHIterator i = a.getEWAHIterator();
         final EWAHIterator j = getEWAHIterator();
@@ -497,6 +503,13 @@ public final class EWAHCompressedBitmap implements Cloneable, Externalizable,
      */
     public void andNotToContainer(final EWAHCompressedBitmap a,
                                   final BitmapStorage container) {
+        final EWAHCompressedBitmap safeOther = (container == a) ? cloneQuietly(a) : a;
+        final EWAHCompressedBitmap safeThis = (container == this) ? cloneQuietly(this) : this;
+        safeThis.andNotToContainerUnsafe(safeOther, container);
+    }
+
+    private void andNotToContainerUnsafe(final EWAHCompressedBitmap a,
+                                         final BitmapStorage container) {
         container.clear();
         final EWAHIterator i = getEWAHIterator();
         final EWAHIterator j = a.getEWAHIterator();
@@ -597,6 +610,14 @@ public final class EWAHCompressedBitmap implements Cloneable, Externalizable,
         clone.sizeInBits = this.sizeInBits;
         clone.rlw = new RunningLengthWord(clone.buffer, this.rlw.position);
         return clone;
+    }
+
+    private static EWAHCompressedBitmap cloneQuietly(final EWAHCompressedBitmap bitmap) {
+        try {
+            return bitmap.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new IllegalStateException(e);
+        }
     }
 
     /**
@@ -1031,6 +1052,13 @@ public final class EWAHCompressedBitmap implements Cloneable, Externalizable,
      */
     public void orToContainer(final EWAHCompressedBitmap a,
                               final BitmapStorage container) {
+        final EWAHCompressedBitmap safeOther = (container == a) ? cloneQuietly(a) : a;
+        final EWAHCompressedBitmap safeThis = (container == this) ? cloneQuietly(this) : this;
+        safeThis.orToContainerUnsafe(safeOther, container);
+    }
+
+    private void orToContainerUnsafe(final EWAHCompressedBitmap a,
+                                     final BitmapStorage container) {
         container.clear();
         final EWAHIterator i = a.getEWAHIterator();
         final EWAHIterator j = getEWAHIterator();
@@ -1744,6 +1772,13 @@ public final class EWAHCompressedBitmap implements Cloneable, Externalizable,
      */
     public void xorToContainer(final EWAHCompressedBitmap a,
                                final BitmapStorage container) {
+        final EWAHCompressedBitmap safeOther = (container == a) ? cloneQuietly(a) : a;
+        final EWAHCompressedBitmap safeThis = (container == this) ? cloneQuietly(this) : this;
+        safeThis.xorToContainerUnsafe(safeOther, container);
+    }
+
+    private void xorToContainerUnsafe(final EWAHCompressedBitmap a,
+                                      final BitmapStorage container) {
         container.clear();
         final EWAHIterator i = a.getEWAHIterator();
         final EWAHIterator j = getEWAHIterator();

@@ -380,6 +380,13 @@ public final class EWAHCompressedBitmap32 implements Cloneable, Externalizable,
      */
     public void andToContainer(final EWAHCompressedBitmap32 a,
                                final BitmapStorage32 container) {
+        final EWAHCompressedBitmap32 safeOther = (container == a) ? cloneQuietly(a) : a;
+        final EWAHCompressedBitmap32 safeThis = (container == this) ? cloneQuietly(this) : this;
+        safeThis.andToContainerUnsafe(safeOther, container);
+    }
+
+    private void andToContainerUnsafe(final EWAHCompressedBitmap32 a,
+                                      final BitmapStorage32 container) {
         container.clear();
         final EWAHIterator32 i = a.getEWAHIterator();
         final EWAHIterator32 j = getEWAHIterator();
@@ -484,6 +491,13 @@ public final class EWAHCompressedBitmap32 implements Cloneable, Externalizable,
      */
     public void andNotToContainer(final EWAHCompressedBitmap32 a,
                                   final BitmapStorage32 container) {
+        final EWAHCompressedBitmap32 safeOther = (container == a) ? cloneQuietly(a) : a;
+        final EWAHCompressedBitmap32 safeThis = (container == this) ? cloneQuietly(this) : this;
+        safeThis.andNotToContainerUnsafe(safeOther, container);
+    }
+
+    private void andNotToContainerUnsafe(final EWAHCompressedBitmap32 a,
+                                         final BitmapStorage32 container) {
         container.clear();
         final EWAHIterator32 i = getEWAHIterator();
         final EWAHIterator32 j = a.getEWAHIterator();
@@ -605,6 +619,15 @@ public final class EWAHCompressedBitmap32 implements Cloneable, Externalizable,
         clone.sizeInBits = this.sizeInBits;
         clone.rlw = new RunningLengthWord32(clone.buffer, this.rlw.position);
         return clone;
+    }
+
+    private static EWAHCompressedBitmap32 cloneQuietly(
+            final EWAHCompressedBitmap32 bitmap) {
+        try {
+            return bitmap.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new IllegalStateException(e);
+        }
     }
 
     /**
@@ -1033,6 +1056,13 @@ public final class EWAHCompressedBitmap32 implements Cloneable, Externalizable,
      */
     public void orToContainer(final EWAHCompressedBitmap32 a,
                               final BitmapStorage32 container) {
+        final EWAHCompressedBitmap32 safeOther = (container == a) ? cloneQuietly(a) : a;
+        final EWAHCompressedBitmap32 safeThis = (container == this) ? cloneQuietly(this) : this;
+        safeThis.orToContainerUnsafe(safeOther, container);
+    }
+
+    private void orToContainerUnsafe(final EWAHCompressedBitmap32 a,
+                                     final BitmapStorage32 container) {
         container.clear();
         final EWAHIterator32 i = a.getEWAHIterator();
         final EWAHIterator32 j = getEWAHIterator();
@@ -1756,6 +1786,13 @@ public final class EWAHCompressedBitmap32 implements Cloneable, Externalizable,
      */
     public void xorToContainer(final EWAHCompressedBitmap32 a,
                                final BitmapStorage32 container) {
+        final EWAHCompressedBitmap32 safeOther = (container == a) ? cloneQuietly(a) : a;
+        final EWAHCompressedBitmap32 safeThis = (container == this) ? cloneQuietly(this) : this;
+        safeThis.xorToContainerUnsafe(safeOther, container);
+    }
+
+    private void xorToContainerUnsafe(final EWAHCompressedBitmap32 a,
+                                      final BitmapStorage32 container) {
         container.clear();
         final EWAHIterator32 i = a.getEWAHIterator();
         final EWAHIterator32 j = getEWAHIterator();

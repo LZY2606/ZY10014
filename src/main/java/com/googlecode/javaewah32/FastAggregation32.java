@@ -229,6 +229,18 @@ public final class FastAggregation32 {
         if (bitmaps.length < 2)
             throw new IllegalArgumentException(
                     "We need at least two bitmaps");
+        EWAHCompressedBitmap32[] safeBitmaps = bitmaps;
+        for (int k = 0; k < bitmaps.length; ++k) {
+            if (container == bitmaps[k]) {
+                safeBitmaps = bitmaps.clone();
+                try {
+                    safeBitmaps[k] = bitmaps[k].clone();
+                } catch (CloneNotSupportedException e) {
+                    throw new IllegalStateException(e);
+                }
+                break;
+            }
+        }
         PriorityQueue<EWAHCompressedBitmap32> pq = new PriorityQueue<EWAHCompressedBitmap32>(
                 bitmaps.length,
                 new Comparator<EWAHCompressedBitmap32>() {
@@ -240,7 +252,7 @@ public final class FastAggregation32 {
                     }
                 }
         );
-        Collections.addAll(pq, bitmaps);
+        Collections.addAll(pq, safeBitmaps);
         while (pq.size() > 2) {
             EWAHCompressedBitmap32 x1 = pq.poll();
             EWAHCompressedBitmap32 x2 = pq.poll();
